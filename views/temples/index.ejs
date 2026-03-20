@@ -1,0 +1,85 @@
+<%- include('../partials/header') %>
+
+<section class="page-hero">
+    <div class="container">
+        <div class="page-hero-content">
+            <span class="section-badge">Sacred Destinations</span>
+            <h1>Our Temples</h1>
+            <p>Discover and book darshan at India's most revered shrines</p>
+        </div>
+    </div>
+</section>
+
+<section class="temples-section">
+    <div class="container">
+        <!-- Search & Filter Bar -->
+        <div class="search-bar-wrap">
+            <form action="/temples" method="GET" class="search-form" id="searchForm">
+                <div class="search-input-wrap">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" name="search" placeholder="Search by temple name, location, or deity..."
+                           value="<%= search %>" id="searchInput" autocomplete="off">
+                    <% if (search) { %>
+                    <a href="/temples" class="search-clear"><i class="fas fa-times"></i></a>
+                    <% } %>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </form>
+        </div>
+
+        <!-- Results count -->
+        <% if (search) { %>
+        <div class="results-info">
+            <i class="fas fa-info-circle"></i>
+            Showing <strong><%= temples.length %></strong> result(s) for "<strong><%= search %></strong>"
+            <a href="/temples" class="clear-link">Clear search</a>
+        </div>
+        <% } %>
+
+        <!-- Temple Cards Grid -->
+        <% if (temples.length > 0) { %>
+        <div class="temples-grid" id="templesGrid">
+            <% temples.forEach((temple, i) => { %>
+            <div class="temple-card animate-on-scroll" style="animation-delay: <%= (i % 3) * 0.1 %>s">
+                <div class="temple-card-img">
+                    <img src="<%= temple.image_url %>"
+                         alt="<%= temple.name %>"
+                         loading="lazy"
+                         onerror="this.src='/images/temple-placeholder.svg'">
+                    <div class="card-overlay">
+                        <a href="/temples/<%= temple.id %>" class="btn btn-sm btn-white">View Details</a>
+                    </div>
+                    <div class="card-capacity-badge">
+                        <i class="fas fa-users"></i> Cap: <%= temple.capacity %>
+                    </div>
+                </div>
+                <div class="temple-card-body">
+                    <div class="card-deity"><i class="fas fa-om"></i> <%= temple.deity || 'Sacred Temple' %></div>
+                    <h3 class="card-name"><%= temple.name %></h3>
+                    <p class="card-location"><i class="fas fa-map-marker-alt"></i> <%= temple.location %></p>
+                    <p class="card-desc"><%= temple.description.substring(0, 110) %>...</p>
+                    <div class="card-actions">
+                        <a href="/temples/<%= temple.id %>" class="btn btn-outline btn-sm">
+                            <i class="fas fa-info-circle"></i> Details
+                        </a>
+                        <a href="/bookings/new?temple_id=<%= temple.id %>" class="btn btn-primary btn-sm">
+                            <i class="fas fa-calendar-check"></i> Book Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <% }) %>
+        </div>
+        <% } else { %>
+        <div class="empty-state">
+            <div class="empty-icon">🙏</div>
+            <h3>No temples found</h3>
+            <p>Try a different search term or <a href="/temples">view all temples</a></p>
+        </div>
+        <% } %>
+    </div>
+</section>
+
+<%- include('../partials/footer') %>

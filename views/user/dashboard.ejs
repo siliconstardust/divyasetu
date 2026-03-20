@@ -1,0 +1,138 @@
+<%- include('../partials/header') %>
+
+<section class="dashboard-section">
+    <div class="container">
+
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <div class="dashboard-welcome">
+                <div class="user-avatar-lg"><%= currentUser.name.charAt(0).toUpperCase() %></div>
+                <div>
+                    <h1>Namaste, <%= currentUser.name.split(' ')[0] %>! 🙏</h1>
+                    <p><i class="fas fa-envelope"></i> <%= currentUser.email %></p>
+                </div>
+            </div>
+            <a href="/bookings/new" class="btn btn-primary">
+                <i class="fas fa-calendar-plus"></i> New Booking
+            </a>
+        </div>
+
+        <!-- Stats -->
+        <div class="dashboard-stats">
+            <div class="dash-stat-card">
+                <div class="dash-stat-icon upcoming"><i class="fas fa-calendar-check"></i></div>
+                <div>
+                    <span class="dash-stat-num"><%= upcomingBookings.length %></span>
+                    <span class="dash-stat-label">Upcoming</span>
+                </div>
+            </div>
+            <div class="dash-stat-card">
+                <div class="dash-stat-icon past"><i class="fas fa-history"></i></div>
+                <div>
+                    <span class="dash-stat-num"><%= pastBookings.length %></span>
+                    <span class="dash-stat-label">Past Visits</span>
+                </div>
+            </div>
+            <div class="dash-stat-card">
+                <div class="dash-stat-icon total"><i class="fas fa-place-of-worship"></i></div>
+                <div>
+                    <span class="dash-stat-num"><%= upcomingBookings.length + pastBookings.length %></span>
+                    <span class="dash-stat-label">Total Bookings</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upcoming Bookings -->
+        <div class="bookings-section-block">
+            <div class="section-title-row">
+                <h2><i class="fas fa-calendar-check text-saffron"></i> Upcoming Darshan</h2>
+                <a href="/bookings/new" class="btn btn-sm btn-outline">+ New Booking</a>
+            </div>
+
+            <% if (upcomingBookings.length > 0) { %>
+            <div class="bookings-list">
+                <% upcomingBookings.forEach(b => { %>
+                <div class="booking-item">
+                    <div class="booking-item-img">
+                        <img src="<%= b.image_url %>" alt="<%= b.temple_name %>"
+                             onerror="this.src='/images/temple-placeholder.svg'">
+                    </div>
+                    <div class="booking-item-info">
+                        <div class="booking-ref-sm"># <%= b.booking_ref %></div>
+                        <h3><%= b.temple_name %></h3>
+                        <p><i class="fas fa-map-marker-alt"></i> <%= b.location %></p>
+                        <div class="booking-meta">
+                            <span><i class="fas fa-calendar"></i>
+                                <%= new Date(b.booking_date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) %>
+                            </span>
+                            <span><i class="fas fa-clock"></i> <%= b.time_slot %></span>
+                            <span><i class="fas fa-users"></i> <%= b.persons %> persons</span>
+                        </div>
+                    </div>
+                    <div class="booking-item-actions">
+                        <span class="status-badge confirmed">
+                            <i class="fas fa-check-circle"></i> Confirmed
+                        </span>
+                        <form action="/bookings/<%= b.id %>/cancel" method="POST"
+                              onsubmit="return confirm('Cancel this booking?')">
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+            <% } else { %>
+            <div class="empty-state small">
+                <div class="empty-icon">🕌</div>
+                <h3>No upcoming bookings</h3>
+                <p>Plan your next temple visit!</p>
+                <a href="/temples" class="btn btn-primary">Explore Temples</a>
+            </div>
+            <% } %>
+        </div>
+
+        <!-- Past Bookings -->
+        <% if (pastBookings.length > 0) { %>
+        <div class="bookings-section-block">
+            <div class="section-title-row">
+                <h2><i class="fas fa-history text-gold"></i> Past Visits</h2>
+            </div>
+            <div class="past-bookings-table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Booking Ref</th>
+                            <th>Temple</th>
+                            <th>Date</th>
+                            <th>Time Slot</th>
+                            <th>Persons</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% pastBookings.forEach(b => { %>
+                        <tr>
+                            <td><code><%= b.booking_ref %></code></td>
+                            <td><strong><%= b.temple_name %></strong></td>
+                            <td><%= new Date(b.booking_date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) %></td>
+                            <td><%= b.time_slot %></td>
+                            <td><%= b.persons %></td>
+                            <td>
+                                <span class="status-badge <%= b.status %>">
+                                    <%= b.status.charAt(0).toUpperCase() + b.status.slice(1) %>
+                                </span>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <% } %>
+
+    </div>
+</section>
+
+<%- include('../partials/footer') %>

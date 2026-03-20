@@ -1,0 +1,154 @@
+<%- include('../partials/header') %>
+
+<section class="confirmation-section">
+    <div class="container">
+        <div class="confirmation-card">
+
+            <!-- Success Animation -->
+            <div class="confirm-header">
+                <div class="confirm-icon-wrap">
+                    <div class="confirm-circle">
+                        <svg class="confirm-check" viewBox="0 0 52 52">
+                            <circle class="check-circle" cx="26" cy="26" r="25" fill="none"/>
+                            <path class="check-mark" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                        </svg>
+                    </div>
+                </div>
+                <h1>Booking Confirmed! 🎉</h1>
+                <p>Your darshan slot has been successfully reserved. Jay Shri Ram!</p>
+            </div>
+
+            <!-- Booking Reference -->
+            <div class="booking-ref-box">
+                <span class="ref-label">Booking Reference ID</span>
+                <span class="ref-code"><%= booking.booking_ref %></span>
+                <button class="copy-btn" onclick="copyRef('<%= booking.booking_ref %>')">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+            </div>
+
+            <!-- Temple Image -->
+            <div class="confirm-temple-img">
+                <img src="<%= booking.image_url %>" alt="<%= booking.temple_name %>"
+                     onerror="this.src='/images/temple-placeholder.svg'">
+            </div>
+
+            <!-- Booking Details Grid -->
+            <div class="confirm-details-grid">
+                <div class="confirm-detail">
+                    <i class="fas fa-place-of-worship"></i>
+                    <div>
+                        <span class="detail-label">Temple</span>
+                        <strong><%= booking.temple_name %></strong>
+                    </div>
+                </div>
+                <div class="confirm-detail">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <span class="detail-label">Location</span>
+                        <strong><%= booking.location %></strong>
+                    </div>
+                </div>
+                <div class="confirm-detail">
+                    <i class="fas fa-calendar-alt"></i>
+                    <div>
+                        <span class="detail-label">Visit Date</span>
+                        <strong>
+                            <%= new Date(booking.booking_date).toLocaleDateString('en-IN', {
+                                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                            }) %>
+                        </strong>
+                    </div>
+                </div>
+                <div class="confirm-detail">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <span class="detail-label">Time Slot</span>
+                        <strong><%= booking.time_slot %></strong>
+                    </div>
+                </div>
+                <div class="confirm-detail">
+                    <i class="fas fa-users"></i>
+                    <div>
+                        <span class="detail-label">Persons</span>
+                        <strong><%= booking.persons %></strong>
+                    </div>
+                </div>
+                <div class="confirm-detail">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <span class="detail-label">Status</span>
+                        <strong class="status-badge confirmed"><%= booking.status.toUpperCase() %></strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instructions -->
+            <div class="confirm-instructions">
+                <h3><i class="fas fa-info-circle"></i> Important Instructions</h3>
+                <ul>
+                    <li>Please carry this confirmation ID or a screenshot when visiting the temple.</li>
+                    <li>Arrive at least <strong>15 minutes before</strong> your scheduled slot.</li>
+                    <li>Dress modestly – traditional attire is recommended.</li>
+                    <li>Mobile phones, cameras, and footwear are not allowed inside the sanctum.</li>
+                    <li>To cancel, visit your <a href="/user/dashboard">dashboard</a> before 24 hours of your visit.</li>
+                </ul>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="confirm-actions">
+                <a href="/user/dashboard" class="btn btn-primary btn-lg">
+                    <i class="fas fa-tachometer-alt"></i> My Dashboard
+                </a>
+                <a href="/bookings/new" class="btn btn-outline btn-lg">
+                    <i class="fas fa-calendar-plus"></i> Book Another
+                </a>
+                <a href="/temples" class="btn btn-outline btn-lg">
+                    <i class="fas fa-place-of-worship"></i> Explore Temples
+                </a>
+            </div>
+
+            <!-- Print link -->
+            <div style="text-align:center; margin-top:1rem">
+                <button onclick="window.print()" class="btn btn-sm btn-ghost">
+                    <i class="fas fa-print"></i> Print Confirmation
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+function copyRef(ref) {
+    navigator.clipboard.writeText(ref).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.style.background = '#27ae60';
+        setTimeout(() => {
+            btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+            btn.style.background = '';
+        }, 2000);
+    });
+}
+// Confetti burst on load
+window.addEventListener('load', () => {
+    for (let i = 0; i < 60; i++) createConfetti();
+});
+function createConfetti() {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = `
+        left: ${Math.random() * 100}vw;
+        background: ${['#FF9933','#FFD700','#FF6B35','#E74C3C','#27ae60'][Math.floor(Math.random()*5)]};
+        animation-duration: ${1.5 + Math.random() * 2}s;
+        animation-delay: ${Math.random() * 1}s;
+        width: ${6 + Math.random() * 6}px;
+        height: ${6 + Math.random() * 6}px;
+        border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+    `;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 4000);
+}
+</script>
+
+<%- include('../partials/footer') %>

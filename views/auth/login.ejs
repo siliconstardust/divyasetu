@@ -1,0 +1,79 @@
+<%- include('../partials/header') %>
+
+<section class="auth-section">
+    <div class="auth-left">
+        <div class="auth-art">
+            <div class="auth-om">🕉</div>
+            <h2>Welcome Back</h2>
+            <p>Continue your spiritual journey with DivyaSetu. Book sacred darshan slots across India's most revered temples.</p>
+            <div class="auth-features">
+                <div><i class="fas fa-check-circle"></i> Instant booking confirmation</div>
+                <div><i class="fas fa-check-circle"></i> Real-time slot availability</div>
+                <div><i class="fas fa-check-circle"></i> Manage all your bookings</div>
+            </div>
+        </div>
+    </div>
+    <div class="auth-right">
+        <div class="auth-card">
+            <div class="auth-brand">
+                <span>🕉</span>
+                <h1>DivyaSetu</h1>
+            </div>
+            <h2 class="auth-title">Sign In</h2>
+            <p class="auth-subtitle">Access your sacred bookings</p>
+
+            <form action="/auth/login" method="POST" class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="your@email.com" required autocomplete="email">
+                </div>
+                <div class="form-group">
+                    <label for="password"><i class="fas fa-lock"></i> Password</label>
+                    <div class="input-password">
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        <button type="button" class="toggle-pw" onclick="togglePw('password')">
+                            <i class="fas fa-eye" id="eye-password"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full" id="loginBtn">
+                    <span class="btn-text"><i class="fas fa-sign-in-alt"></i> Sign In</span>
+                    <span class="btn-loader hidden"><i class="fas fa-spinner fa-spin"></i></span>
+                </button>
+            </form>
+
+            <div class="auth-divider"><span>or</span></div>
+
+            <div class="auth-demo">
+                <p>Try demo accounts:</p>
+                <button class="btn btn-sm btn-outline" onclick="fillDemo('ramesh@example.com','user123')">
+                    <i class="fas fa-user"></i> Demo User
+                </button>
+                <button class="btn btn-sm btn-outline" onclick="fillDemo('admin@divyasetu.com','admin123')">
+                    <i class="fas fa-cog"></i> Admin
+                </button>
+            </div>
+
+            <p class="auth-switch">Don't have an account? <a href="/auth/register">Register here</a></p>
+        </div>
+    </div>
+</section>
+
+<script>
+function togglePw(id) {
+    const inp = document.getElementById(id);
+    const eye = document.getElementById('eye-' + id);
+    if (inp.type === 'password') { inp.type = 'text'; eye.className = 'fas fa-eye-slash'; }
+    else { inp.type = 'password'; eye.className = 'fas fa-eye'; }
+}
+function fillDemo(email, pass) {
+    document.getElementById('email').value = email;
+    document.getElementById('password').value = pass;
+}
+document.getElementById('loginForm').addEventListener('submit', function() {
+    document.querySelector('.btn-text').classList.add('hidden');
+    document.querySelector('.btn-loader').classList.remove('hidden');
+});
+</script>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,95 @@
+<%- include('../partials/header') %>
+
+<section class="temple-detail-hero">
+    <div class="temple-hero-img">
+        <img src="<%= temple.image_url %>" alt="<%= temple.name %>"
+             onerror="this.src='/images/temple-placeholder.svg'">
+        <div class="temple-hero-overlay"></div>
+    </div>
+    <div class="temple-hero-content">
+        <div class="container">
+            <span class="section-badge"><i class="fas fa-om"></i> <%= temple.deity %></span>
+            <h1><%= temple.name %></h1>
+            <p class="temple-location-lg"><i class="fas fa-map-marker-alt"></i> <%= temple.location %></p>
+        </div>
+    </div>
+</section>
+
+<section class="temple-detail-section">
+    <div class="container">
+        <div class="temple-detail-grid">
+            <!-- Main Info -->
+            <div class="temple-main-info">
+                <div class="info-card">
+                    <h2>About This Temple</h2>
+                    <p><%= temple.description %></p>
+                </div>
+
+                <div class="info-card slots-card">
+                    <h2><i class="fas fa-clock"></i> Available Darshan Slots</h2>
+                    <div class="slots-grid">
+                        <% const slots = [
+                            '05:00 AM - 06:00 AM',
+                            '06:00 AM - 07:00 AM',
+                            '07:00 AM - 08:00 AM',
+                            '08:00 AM - 09:00 AM',
+                            '09:00 AM - 10:00 AM',
+                            '10:00 AM - 11:00 AM',
+                            '11:00 AM - 12:00 PM',
+                            '04:00 PM - 05:00 PM',
+                            '05:00 PM - 06:00 PM',
+                            '06:00 PM - 07:00 PM',
+                            '07:00 PM - 08:00 PM'
+                        ]; %>
+                        <% slots.forEach(slot => { %>
+                        <div class="slot-badge">
+                            <i class="fas fa-sun"></i> <%= slot %>
+                        </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="temple-sidebar">
+                <div class="sidebar-booking-card">
+                    <div class="booking-card-header">
+                        <h3>Book Your Darshan</h3>
+                        <p>Secure your slot today</p>
+                    </div>
+                    <div class="booking-card-body">
+                        <div class="detail-stat">
+                            <i class="fas fa-users"></i>
+                            <div>
+                                <span class="stat-label">Capacity</span>
+                                <span class="stat-val"><%= temple.capacity %> per slot</span>
+                            </div>
+                        </div>
+                        <div class="detail-stat">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <span class="stat-label">Darshan Slots</span>
+                                <span class="stat-val">11 per day</span>
+                            </div>
+                        </div>
+                        <div class="detail-stat">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <span class="stat-label">Location</span>
+                                <span class="stat-val"><%= temple.location %></span>
+                            </div>
+                        </div>
+                        <a href="/bookings/new?temple_id=<%= temple.id %>" class="btn btn-primary btn-full btn-lg">
+                            <i class="fas fa-calendar-check"></i> Book Now
+                        </a>
+                        <a href="/temples" class="btn btn-outline btn-full" style="margin-top:0.75rem">
+                            <i class="fas fa-arrow-left"></i> All Temples
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include('../partials/footer') %>

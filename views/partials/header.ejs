@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- Loading Spinner -->
+<div id="spinner" class="spinner-overlay">
+    <div class="spinner-lotus">
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="center-dot"></div>
+    </div>
+</div>
+
+<!-- Navigation -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="/" class="nav-brand">
+            <span class="brand-om">🕉</span>
+            <span class="brand-text">DivyaSetu</span>
+        </a>
+
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+
+        <ul class="nav-links" id="navLinks">
+            <li><a href="/" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="/temples" class="nav-link"><i class="fas fa-place-of-worship"></i> Temples</a></li>
+            <% if (currentUser) { %>
+                <li><a href="/bookings/new" class="nav-link"><i class="fas fa-calendar-plus"></i> Book</a></li>
+                <% if (currentUser.role === 'admin') { %>
+                    <li><a href="/admin" class="nav-link nav-admin"><i class="fas fa-cog"></i> Admin</a></li>
+                <% } else { %>
+                    <li><a href="/user/dashboard" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <% } %>
+                <li>
+                    <div class="nav-user">
+                        <span class="user-avatar"><%= currentUser.name.charAt(0).toUpperCase() %></span>
+                        <span class="user-name"><%= currentUser.name.split(' ')[0] %></span>
+                        <a href="/auth/logout" class="btn-logout" title="Logout"><i class="fas fa-sign-out-alt"></i></a>
+                    </div>
+                </li>
+            <% } else { %>
+                <li><a href="/auth/login" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                <li><a href="/auth/register" class="btn-nav-register">Register</a></li>
+            <% } %>
+        </ul>
+    </div>
+</nav>
+
+<!-- Flash Messages -->
+<% if (success_msg && success_msg.length > 0) { %>
+<div class="flash flash-success" id="flash-msg">
+    <i class="fas fa-check-circle"></i> <%= success_msg %>
+    <button class="flash-close" onclick="this.parentElement.remove()">×</button>
+</div>
+<% } %>
+<% if (error_msg && error_msg.length > 0) { %>
+<div class="flash flash-error" id="flash-msg">
+    <i class="fas fa-exclamation-circle"></i> <%= error_msg %>
+    <button class="flash-close" onclick="this.parentElement.remove()">×</button>
+</div>
+<% } %>
+
+<main class="main-content">

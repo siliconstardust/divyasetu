@@ -1,0 +1,106 @@
+<%- include('../partials/header') %>
+
+<section class="auth-section">
+    <div class="auth-left">
+        <div class="auth-art">
+            <div class="auth-om">🕉</div>
+            <h2>Join DivyaSetu</h2>
+            <p>Create your free account and start booking hassle-free darshan at India's most sacred temples.</p>
+            <div class="auth-features">
+                <div><i class="fas fa-check-circle"></i> Free to register</div>
+                <div><i class="fas fa-check-circle"></i> Secure & encrypted</div>
+                <div><i class="fas fa-check-circle"></i> Book unlimited visits</div>
+            </div>
+        </div>
+    </div>
+    <div class="auth-right">
+        <div class="auth-card">
+            <div class="auth-brand">
+                <span>🕉</span>
+                <h1>DivyaSetu</h1>
+            </div>
+            <h2 class="auth-title">Create Account</h2>
+            <p class="auth-subtitle">Start your spiritual journey</p>
+
+            <form action="/auth/register" method="POST" class="auth-form" id="regForm">
+                <div class="form-group">
+                    <label for="name"><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" id="name" name="name" placeholder="Your full name" required minlength="2">
+                </div>
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="password"><i class="fas fa-lock"></i> Password</label>
+                    <div class="input-password">
+                        <input type="password" id="password" name="password" placeholder="Min 6 characters" required minlength="6">
+                        <button type="button" class="toggle-pw" onclick="togglePw('password')">
+                            <i class="fas fa-eye" id="eye-password"></i>
+                        </button>
+                    </div>
+                    <div class="pw-strength" id="pwStrength"></div>
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password"><i class="fas fa-lock"></i> Confirm Password</label>
+                    <div class="input-password">
+                        <input type="password" id="confirm_password" name="confirm_password" placeholder="Re-enter password" required>
+                        <button type="button" class="toggle-pw" onclick="togglePw('confirm_password')">
+                            <i class="fas fa-eye" id="eye-confirm_password"></i>
+                        </button>
+                    </div>
+                    <span id="pwMatch" class="form-hint"></span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full" id="regBtn">
+                    <span class="btn-text"><i class="fas fa-user-plus"></i> Create Account</span>
+                    <span class="btn-loader hidden"><i class="fas fa-spinner fa-spin"></i></span>
+                </button>
+            </form>
+
+            <p class="auth-switch">Already have an account? <a href="/auth/login">Sign in</a></p>
+        </div>
+    </div>
+</section>
+
+<script>
+function togglePw(id) {
+    const inp = document.getElementById(id);
+    const eye = document.getElementById('eye-' + id);
+    if (inp.type === 'password') { inp.type = 'text'; eye.className = 'fas fa-eye-slash'; }
+    else { inp.type = 'password'; eye.className = 'fas fa-eye'; }
+}
+
+const pwInput   = document.getElementById('password');
+const confInput = document.getElementById('confirm_password');
+const pwMatch   = document.getElementById('pwMatch');
+const pwStrength= document.getElementById('pwStrength');
+
+pwInput.addEventListener('input', function() {
+    const v = this.value;
+    let str = '';
+    if (v.length < 6) str = '<span style="color:#e74c3c">Too short</span>';
+    else if (v.length < 10) str = '<span style="color:#f39c12">Fair</span>';
+    else str = '<span style="color:#27ae60">Strong</span>';
+    pwStrength.innerHTML = 'Strength: ' + str;
+});
+
+confInput.addEventListener('input', function() {
+    if (this.value !== pwInput.value) {
+        pwMatch.innerHTML = '<span style="color:#e74c3c"><i class="fas fa-times"></i> Passwords do not match</span>';
+    } else {
+        pwMatch.innerHTML = '<span style="color:#27ae60"><i class="fas fa-check"></i> Passwords match</span>';
+    }
+});
+
+document.getElementById('regForm').addEventListener('submit', function(e) {
+    if (confInput.value !== pwInput.value) {
+        e.preventDefault();
+        alert('Passwords do not match!');
+        return;
+    }
+    document.querySelector('.btn-text').classList.add('hidden');
+    document.querySelector('.btn-loader').classList.remove('hidden');
+});
+</script>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,200 @@
+<%- include('../partials/header') %>
+
+<section class="page-hero">
+    <div class="container">
+        <div class="page-hero-content">
+            <span class="section-badge"><i class="fas fa-calendar-check"></i> Darshan Booking</span>
+            <h1>Book Your Visit</h1>
+            <p>Choose your temple, date, and time to secure your darshan slot</p>
+        </div>
+    </div>
+</section>
+
+<section class="booking-section">
+    <div class="container">
+        <div class="booking-layout">
+
+            <!-- Booking Form -->
+            <div class="booking-form-wrap">
+                <div class="form-card">
+                    <h2><i class="fas fa-calendar-plus"></i> Booking Details</h2>
+
+                    <form action="/bookings" method="POST" id="bookingForm">
+
+                        <!-- Temple Select -->
+                        <div class="form-group">
+                            <label for="temple_id">
+                                <i class="fas fa-place-of-worship"></i> Select Temple <span class="req">*</span>
+                            </label>
+                            <select name="temple_id" id="temple_id" required onchange="updateTempleInfo(this)">
+                                <option value="">-- Choose a Temple --</option>
+                                <% temples.forEach(t => { %>
+                                <option value="<%= t.id %>"
+                                    data-location="<%= t.location %>"
+                                    <%= selectedId == t.id ? 'selected' : '' %>>
+                                    <%= t.name %> — <%= t.location %>
+                                </option>
+                                <% }) %>
+                            </select>
+                        </div>
+
+                        <!-- Selected Temple Info -->
+                        <div class="temple-select-info" id="templeInfo" style="display:none">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span id="templeLocation"></span>
+                        </div>
+
+                        <!-- Date -->
+                        <div class="form-group">
+                            <label for="booking_date">
+                                <i class="fas fa-calendar-alt"></i> Visit Date <span class="req">*</span>
+                            </label>
+                            <input type="date" name="booking_date" id="booking_date" required>
+                        </div>
+
+                        <!-- Time Slot -->
+                        <div class="form-group">
+                            <label><i class="fas fa-clock"></i> Darshan Time Slot <span class="req">*</span></label>
+                            <div class="slot-selector" id="slotSelector">
+                                <% timeSlots.forEach(slot => { %>
+                                <label class="slot-option">
+                                    <input type="radio" name="time_slot" value="<%= slot %>" required>
+                                    <span class="slot-label">
+                                        <i class="fas fa-sun"></i> <%= slot %>
+                                    </span>
+                                </label>
+                                <% }) %>
+                            </div>
+                        </div>
+
+                        <!-- Number of Persons -->
+                        <div class="form-group">
+                            <label for="persons">
+                                <i class="fas fa-users"></i> Number of Persons <span class="req">*</span>
+                            </label>
+                            <div class="persons-counter">
+                                <button type="button" class="counter-btn" onclick="changePersons(-1)">−</button>
+                                <input type="number" name="persons" id="persons" value="1" min="1" max="20" readonly>
+                                <button type="button" class="counter-btn" onclick="changePersons(1)">+</button>
+                            </div>
+                            <p class="form-hint">Maximum 20 persons per booking</p>
+                        </div>
+
+                        <!-- Summary Box -->
+                        <div class="booking-summary" id="bookingSummary" style="display:none">
+                            <h4><i class="fas fa-receipt"></i> Booking Summary</h4>
+                            <div class="summary-row"><span>Temple:</span><strong id="sum-temple">—</strong></div>
+                            <div class="summary-row"><span>Date:</span><strong id="sum-date">—</strong></div>
+                            <div class="summary-row"><span>Time Slot:</span><strong id="sum-slot">—</strong></div>
+                            <div class="summary-row"><span>Persons:</span><strong id="sum-persons">1</strong></div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-full btn-lg" id="submitBtn">
+                            <span class="btn-text"><i class="fas fa-check-circle"></i> Confirm Booking</span>
+                            <span class="btn-loader hidden"><i class="fas fa-spinner fa-spin"></i> Processing...</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Info Panel -->
+            <div class="booking-info-panel">
+                <div class="info-panel-card">
+                    <h3><i class="fas fa-info-circle"></i> Booking Guidelines</h3>
+                    <ul class="guidelines-list">
+                        <li><i class="fas fa-check"></i> Bookings must be made at least 1 day in advance</li>
+                        <li><i class="fas fa-check"></i> Arrive 15 minutes before your scheduled slot</li>
+                        <li><i class="fas fa-check"></i> Carry your booking confirmation ID</li>
+                        <li><i class="fas fa-check"></i> Dress modestly as per temple guidelines</li>
+                        <li><i class="fas fa-check"></i> Mobile phones must be switched off inside</li>
+                        <li><i class="fas fa-check"></i> Cancellations allowed up to 24 hours before</li>
+                    </ul>
+                </div>
+                <div class="info-panel-card">
+                    <h3><i class="fas fa-clock"></i> Darshan Timings</h3>
+                    <div class="timing-blocks">
+                        <div class="timing-block morning">
+                            <i class="fas fa-sun"></i>
+                            <div>
+                                <strong>Morning Darshan</strong>
+                                <span>5:00 AM – 12:00 PM</span>
+                            </div>
+                        </div>
+                        <div class="timing-block evening">
+                            <i class="fas fa-moon"></i>
+                            <div>
+                                <strong>Evening Darshan</strong>
+                                <span>4:00 PM – 8:00 PM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+// Set min date to tomorrow
+const datePicker = document.getElementById('booking_date');
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+datePicker.min = tomorrow.toISOString().split('T')[0];
+
+// Persons counter
+function changePersons(delta) {
+    const inp = document.getElementById('persons');
+    const newVal = Math.min(20, Math.max(1, parseInt(inp.value) + delta));
+    inp.value = newVal;
+    updateSummary();
+}
+
+// Update temple info strip
+function updateTempleInfo(sel) {
+    const opt = sel.options[sel.selectedIndex];
+    const info = document.getElementById('templeInfo');
+    if (sel.value) {
+        document.getElementById('templeLocation').textContent = opt.dataset.location;
+        info.style.display = 'flex';
+    } else { info.style.display = 'none'; }
+    updateSummary();
+}
+
+// Live booking summary
+function updateSummary() {
+    const sel   = document.getElementById('temple_id');
+    const date  = document.getElementById('booking_date').value;
+    const slot  = document.querySelector('input[name="time_slot"]:checked');
+    const pers  = document.getElementById('persons').value;
+    const sum   = document.getElementById('bookingSummary');
+
+    if (sel.value || date || slot) {
+        sum.style.display = 'block';
+        document.getElementById('sum-temple').textContent  = sel.options[sel.selectedIndex]?.text.split(' — ')[0] || '—';
+        document.getElementById('sum-date').textContent    = date ? new Date(date + 'T00:00:00').toLocaleDateString('en-IN', {day:'numeric',month:'long',year:'numeric'}) : '—';
+        document.getElementById('sum-slot').textContent    = slot ? slot.value : '—';
+        document.getElementById('sum-persons').textContent = pers;
+    }
+}
+
+document.getElementById('booking_date').addEventListener('change', updateSummary);
+document.querySelectorAll('input[name="time_slot"]').forEach(r => r.addEventListener('change', updateSummary));
+document.getElementById('persons').addEventListener('change', updateSummary);
+
+document.getElementById('bookingForm').addEventListener('submit', function(e) {
+    const slot = document.querySelector('input[name="time_slot"]:checked');
+    if (!slot) { e.preventDefault(); alert('Please select a time slot.'); return; }
+    document.querySelector('.btn-text').classList.add('hidden');
+    document.querySelector('.btn-loader').classList.remove('hidden');
+    document.getElementById('submitBtn').disabled = true;
+});
+
+// Pre-select temple if query param set
+<% if (selectedId) { %>
+    document.getElementById('temple_id').value = '<%= selectedId %>';
+    updateTempleInfo(document.getElementById('temple_id'));
+<% } %>
+</script>
+
+<%- include('../partials/footer') %>

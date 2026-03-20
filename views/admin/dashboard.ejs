@@ -1,0 +1,125 @@
+<%- include('../partials/header') %>
+
+<div class="admin-layout">
+
+    <!-- Admin Sidebar -->
+    <aside class="admin-sidebar">
+        <div class="admin-brand">
+            <span>🕉</span>
+            <h2>Admin Panel</h2>
+        </div>
+        <nav class="admin-nav">
+            <a href="/admin" class="admin-nav-link active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="/admin/temples" class="admin-nav-link"><i class="fas fa-place-of-worship"></i> Temples</a>
+            <a href="/admin/bookings" class="admin-nav-link"><i class="fas fa-calendar-check"></i> Bookings</a>
+            <a href="/admin/users" class="admin-nav-link"><i class="fas fa-users"></i> Users</a>
+            <a href="/" class="admin-nav-link"><i class="fas fa-globe"></i> View Site</a>
+            <a href="/auth/logout" class="admin-nav-link logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Admin Main Content -->
+    <div class="admin-main">
+        <div class="admin-topbar">
+            <h1>Dashboard</h1>
+            <div class="admin-user-info">
+                <span class="user-avatar"><%= currentUser.name.charAt(0) %></span>
+                <span><%= currentUser.name %></span>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="admin-stats-grid">
+            <div class="admin-stat-card blue">
+                <div class="stat-icon"><i class="fas fa-users"></i></div>
+                <div class="stat-data">
+                    <span class="stat-num"><%= stats.totalUsers %></span>
+                    <span class="stat-label">Total Users</span>
+                </div>
+            </div>
+            <div class="admin-stat-card saffron">
+                <div class="stat-icon"><i class="fas fa-place-of-worship"></i></div>
+                <div class="stat-data">
+                    <span class="stat-num"><%= stats.totalTemples %></span>
+                    <span class="stat-label">Temples</span>
+                </div>
+            </div>
+            <div class="admin-stat-card green">
+                <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+                <div class="stat-data">
+                    <span class="stat-num"><%= stats.totalBookings %></span>
+                    <span class="stat-label">Total Bookings</span>
+                </div>
+            </div>
+            <div class="admin-stat-card gold">
+                <div class="stat-icon"><i class="fas fa-star"></i></div>
+                <div class="stat-data">
+                    <span class="stat-num"><%= stats.todayBookings %></span>
+                    <span class="stat-label">Today's Bookings</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="admin-quick-actions">
+            <h2>Quick Actions</h2>
+            <div class="quick-action-grid">
+                <a href="/admin/temples/new" class="quick-action-card">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Add Temple</span>
+                </a>
+                <a href="/admin/bookings" class="quick-action-card">
+                    <i class="fas fa-list"></i>
+                    <span>View Bookings</span>
+                </a>
+                <a href="/admin/users" class="quick-action-card">
+                    <i class="fas fa-user-friends"></i>
+                    <span>Manage Users</span>
+                </a>
+                <a href="/temples" class="quick-action-card">
+                    <i class="fas fa-eye"></i>
+                    <span>View Site</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Recent Bookings Table -->
+        <div class="admin-table-section">
+            <div class="section-title-row">
+                <h2>Recent Bookings</h2>
+                <a href="/admin/bookings" class="btn btn-sm btn-outline">View All</a>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Ref</th>
+                            <th>User</th>
+                            <th>Temple</th>
+                            <th>Date</th>
+                            <th>Slot</th>
+                            <th>Persons</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% recentBookings.forEach(b => { %>
+                        <tr>
+                            <td><code><%= b.booking_ref %></code></td>
+                            <td><%= b.user_name %></td>
+                            <td><%= b.temple_name %></td>
+                            <td><%= new Date(b.booking_date).toLocaleDateString('en-IN',{day:'numeric',month:'short'}) %></td>
+                            <td><%= b.time_slot %></td>
+                            <td><%= b.persons %></td>
+                            <td><span class="status-badge <%= b.status %>"><%= b.status %></span></td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

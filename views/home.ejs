@@ -1,0 +1,153 @@
+<%- include('partials/header') %>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-particles" id="particles"></div>
+    <div class="hero-content">
+        <div class="hero-badge animate-fade-up">🕉 &nbsp; Sacred Journeys Simplified</div>
+        <h1 class="hero-title animate-fade-up delay-1">
+            Welcome to<br>
+            <span class="text-gradient">DivyaSetu</span>
+        </h1>
+        <p class="hero-subtitle animate-fade-up delay-2">
+            Your divine bridge to India's most sacred temples.<br>
+            Book darshan slots, skip queues, and experience spiritual bliss.
+        </p>
+        <div class="hero-cta animate-fade-up delay-3">
+            <a href="/temples" class="btn btn-primary btn-lg">
+                <i class="fas fa-place-of-worship"></i> Explore Temples
+            </a>
+            <a href="/bookings/new" class="btn btn-outline btn-lg">
+                <i class="fas fa-calendar-check"></i> Book Darshan
+            </a>
+        </div>
+        <div class="hero-stats animate-fade-up delay-4">
+            <div class="stat-item">
+                <span class="stat-num">6+</span>
+                <span class="stat-label">Sacred Temples</span>
+            </div>
+            <div class="stat-divider">✦</div>
+            <div class="stat-item">
+                <span class="stat-num">1000+</span>
+                <span class="stat-label">Happy Devotees</span>
+            </div>
+            <div class="stat-divider">✦</div>
+            <div class="stat-item">
+                <span class="stat-num">24/7</span>
+                <span class="stat-label">Online Booking</span>
+            </div>
+        </div>
+    </div>
+    <div class="hero-scroll">
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">How It Works</span>
+            <h2>Simple Steps to Darshan</h2>
+            <p>Book your temple visit in just a few clicks</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card animate-on-scroll">
+                <div class="feature-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>Find Your Temple</h3>
+                <p>Browse our curated list of sacred temples across India with detailed information and beautiful images.</p>
+            </div>
+            <div class="feature-card animate-on-scroll">
+                <div class="feature-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h3>Choose a Slot</h3>
+                <p>Select your preferred date and time slot. Our real-time availability system shows open spots instantly.</p>
+            </div>
+            <div class="feature-card animate-on-scroll">
+                <div class="feature-icon">
+                    <i class="fas fa-ticket-alt"></i>
+                </div>
+                <h3>Instant Confirmation</h3>
+                <p>Receive an instant booking confirmation with a unique ID. No waiting, no hassle.</p>
+            </div>
+            <div class="feature-card animate-on-scroll">
+                <div class="feature-icon">
+                    <i class="fas fa-pray"></i>
+                </div>
+                <h3>Visit & Seek Blessings</h3>
+                <p>Arrive at your scheduled time and enjoy a peaceful, queue-free darshan experience.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Temples -->
+<section class="featured-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">Featured</span>
+            <h2>Sacred Destinations</h2>
+            <p>Explore some of India's most revered temples</p>
+        </div>
+
+        <% if (featuredTemples.length > 0) { %>
+        <div class="temples-grid">
+            <% featuredTemples.forEach((temple, i) => { %>
+            <div class="temple-card animate-on-scroll" style="animation-delay: <%= i * 0.15 %>s">
+                <div class="temple-card-img">
+                    <img src="<%= temple.image_url %>"
+                         alt="<%= temple.name %>"
+                         loading="lazy"
+                         onerror="this.src='/images/temple-placeholder.svg'">
+                    <div class="card-overlay">
+                        <a href="/temples/<%= temple.id %>" class="btn btn-sm btn-white">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+                <div class="temple-card-body">
+                    <div class="card-deity"><i class="fas fa-om"></i> <%= temple.deity %></div>
+                    <h3 class="card-name"><%= temple.name %></h3>
+                    <p class="card-location"><i class="fas fa-map-marker-alt"></i> <%= temple.location %></p>
+                    <p class="card-desc"><%= temple.description.substring(0, 100) %>...</p>
+                    <div class="card-actions">
+                        <a href="/temples/<%= temple.id %>" class="btn btn-outline btn-sm">Details</a>
+                        <a href="/bookings/new?temple_id=<%= temple.id %>" class="btn btn-primary btn-sm">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <% }) %>
+        </div>
+        <% } %>
+
+        <div class="section-cta">
+            <a href="/temples" class="btn btn-primary btn-lg">
+                View All Temples <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Banner -->
+<section class="cta-banner">
+    <div class="cta-pattern"></div>
+    <div class="container">
+        <div class="cta-content">
+            <div class="cta-om">🕉</div>
+            <h2>Begin Your Spiritual Journey Today</h2>
+            <p>Join thousands of devotees who have experienced hassle-free darshan with DivyaSetu</p>
+            <div class="cta-buttons">
+                <a href="/auth/register" class="btn btn-white btn-lg">Create Free Account</a>
+                <a href="/temples" class="btn btn-outline-white btn-lg">Browse Temples</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include('partials/footer') %>
