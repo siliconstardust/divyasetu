@@ -73,7 +73,7 @@ divyasetu/
 
 ```bash
 # If using git:
-git clone <repo-url>
+git clone <"https://github.com/siliconstardust/divyasetu">
 cd divyasetu
 
 # Or just unzip the project folder and cd into it
