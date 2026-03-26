@@ -9,7 +9,7 @@ const db             = require('./config/db');
 const { setLocals }  = require('./middleware/auth');
 
 const app  = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 // ── View engine ───────────────────────────────────────────────
 app.set('view engine', 'ejs');
@@ -65,8 +65,11 @@ app.use((req, res) => {
 });
 
 // ── Start server ──────────────────────────────────────────────
+
 app.listen(PORT, () => {
-    console.log(`\n🕉️  DivyaSetu is running at http://localhost:${PORT}`);
-    console.log(`   Admin: http://localhost:${PORT}/auth/login`);
+    const baseURL = process.env.RAILWAY_STATIC_URL || `http://localhost:${PORT}`;
+
+    console.log(`\n🕉️ DivyaSetu is running at ${baseURL}`);
+    console.log(`   Admin: ${baseURL}/auth/login`);
     console.log(`   Press Ctrl+C to stop\n`);
 });
