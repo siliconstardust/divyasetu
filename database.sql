@@ -59,7 +59,7 @@ INSERT INTO temples (name, location, description, image_url, deity, capacity) VA
   'Shri Siddhivinayak Temple',
   'Prabhadevi, Mumbai, Maharashtra',
   'One of the most visited temples in Mumbai, Siddhivinayak is dedicated to Lord Ganesha. Built in 1801, the temple draws thousands of devotees daily. Its golden spire and intricately carved wooden doors make it an architectural marvel. The main idol is made of a single black stone and is believed to fulfill all wishes.',
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Siddhivinayak_Temple_Mumbai.jpg/800px-Siddhivinayak_Temple_Mumbai.jpg',
+  'https://images.hindustantimes.com/img/2021/02/25/1600x900/plating-devotee-around-delhi-weighing-donated-gold_2f6fc288-3c2a-11ea-bfbd-f812f33ac46f_1614239138341.jpg',
   'Lord Ganesha',
   100
 ),
@@ -67,7 +67,7 @@ INSERT INTO temples (name, location, description, image_url, deity, capacity) VA
   'Kashi Vishwanath Temple',
   'Varanasi, Uttar Pradesh',
   'The Kashi Vishwanath Temple is one of the most famous Hindu temples dedicated to Lord Shiva. It is situated on the western bank of the holy river Ganga. It is one of the twelve Jyotirlingas, the holiest of Shiva temples. The main deity is known by the name Vishwanatha meaning "Ruler of the Universe".',
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Kashi_Vishwanath_Temple.jpg/800px-Kashi_Vishwanath_Temple.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/f/ff/Kashi_Vishwanath.jpg',
   'Lord Shiva',
   200
 ),
@@ -75,7 +75,7 @@ INSERT INTO temples (name, location, description, image_url, deity, capacity) VA
   'Tirumala Venkateswara Temple',
   'Tirumala Hills, Tirupati, Andhra Pradesh',
   'The Tirumala Venkateswara Temple is a landmark Vaishnavite temple situated on the Tirumala Hills. The temple is the most visited place of worship in the world, with an average of 50,000 to 100,000 pilgrims visiting daily. It is one of the most ancient temples in existence with a history of over 1000 years.',
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Tirumala_temple.jpg/800px-Tirumala_temple.jpg',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfmb4MpLzlccjigLtvQNuUpSI6L1oOpfUXsg&s',
   'Lord Venkateswara',
   500
 ),
@@ -91,7 +91,7 @@ INSERT INTO temples (name, location, description, image_url, deity, capacity) VA
   'Meenakshi Amman Temple',
   'Madurai, Tamil Nadu',
   'The Meenakshi Amman Temple is a historic Hindu temple located on the southern bank of the Vaigai River. It is dedicated to Meenakshi (Parvati) and her consort Sundareshwar (Shiva). With its 14 magnificent gateway towers (gopurams), the temple is a Dravidian architectural masterpiece spanning over 6 hectares.',
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Meenakshi_Amman_Temple_Madurai.jpg/800px-Meenakshi_Amman_Temple_Madurai.jpg',
+  'https://i.natgeofe.com/n/b9e9b8d1-fa08-4b90-96bb-310cace03847/meenakshi-amman-temple-india.jpg',
   'Goddess Meenakshi',
   300
 ),
@@ -99,7 +99,7 @@ INSERT INTO temples (name, location, description, image_url, deity, capacity) VA
   'Jagannath Temple',
   'Puri, Odisha',
   'The Jagannath Temple is a famous Hindu temple dedicated to Lord Jagannath, a form of Lord Vishnu or Krishna. It is one of the Char Dham pilgrimages that a Hindu must undertake. The famous Rath Yatra (chariot festival) is held annually here. The temple kitchen is said to be the world\'s largest, serving 10,000 people daily.',
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Puri_Jagannath_temple.jpg/800px-Puri_Jagannath_temple.jpg',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0qSYQTgnAwJGAeXVq6NqUodI9iJv64c7RDg&s',
   'Lord Jagannath',
   400
 );
