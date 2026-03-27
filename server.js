@@ -65,11 +65,7 @@ app.use((req, res) => {
 });
 
 // ── Start server ──────────────────────────────────────────────
-
-app.listen(PORT, () => {
-    const baseURL = process.env.RAILWAY_STATIC_URL || `http://localhost:${PORT}`;
-
-    console.log(`\n🕉️ DivyaSetu is running at ${baseURL}`);
-    console.log(`   Admin: ${baseURL}/auth/login`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`\n🕉️  DivyaSetu is running on port ${PORT}`);
     console.log(`   Press Ctrl+C to stop\n`);
 });
